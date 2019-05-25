@@ -23,10 +23,10 @@ class BooksController < ApplicationController
     end
   end
   def ensure_correct_user
-    @book = Book.find_by(id:params[:id])
-    if @book.user_id != @current_user.id
+    @book = Book.find(params[:id])
+    if @book.user.id != current_user.id
       flash[:notice] = "権限がありません"
-      redirect_to("show")
+      redirect_to user_path(current_user.id)
     end
   end
 

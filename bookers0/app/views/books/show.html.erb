@@ -51,12 +51,14 @@
              <td><%= attachment_image_tag @user, :profile_image, size: '50x50', format: 'jpeg',fallback: "noimage.jpg" %>
              </td>
              <td><%= @book.title %></td>
-             <td><%= @book.body%></td>
+             <td><%= @book.body %></td>
+            <% if current_user.id == @user.id %>
              <td class="rr"><%=link_to "Edit", edit_book_path(@book.id),class: "edit_book_#{@book.id}" %>
              </td>
              <td class="rr">
               <%= link_to "Destroy", book_path(@book.id), method: :delete %>
               </td>
+              <% end %>
             </tr>
           </thead>
         </table>

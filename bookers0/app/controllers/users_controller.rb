@@ -3,7 +3,7 @@ class UsersController < ApplicationController
  before_action :ensure_correct_user, only: [:edit]
   def show
     @bookn = Book.new
-    @book = Book.find(params[:id])
+    @book = Book.where(user_id: current_user.id)
     @user = User.find(params[:id])
   end
   def index
@@ -12,13 +12,13 @@ class UsersController < ApplicationController
     @book = Book.new
   end
   def edit
-    @user = User.find(params[:id])
+    
   end
-   def ensure_correct_user
-    @user = User.find_by(id:params[:id])
-    if @user.user_id != @current_user.id
+  def ensure_correct_user
+    @user = User.find(params[:id])
+    if @user.id != current_user.id
       flash[:notice] = "権限がありません"
-      redirect_to("show")
+      redirect_to user_path(current_user.id)
     end
   end
   def update
