@@ -19,6 +19,7 @@ class BooksController < ApplicationController
      redirect_to book_path(@book.id)
     else
      @books = Book.all
+     @user = current_user
      render "index"
     end
   end
@@ -26,7 +27,7 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     if @book.user.id != current_user.id
       flash[:notice] = "権限がありません"
-      redirect_to user_path(current_user.id)
+      redirect_to books_path
     end
   end
 
@@ -34,12 +35,12 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
   end
   def update
-    book = Book.find(params[:id])
-    if book.update(book_params)
+    @book = Book.find(params[:id])
+    if @book.update(book_params)
     flash[:notice] ="You have updated book successfully."
-    redirect_to book_path(book.id)
+    redirect_to book_path(@book.id)
    else
-    books = Book.all
+    # @books = Book.all
     render "edit"
    end
   end
